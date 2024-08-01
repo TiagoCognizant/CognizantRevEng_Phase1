@@ -20,7 +20,7 @@ class SmsReceiver : BroadcastReceiver() {
             }
             if (messages.size > -1) {
                 Log.i(TAG, "Message recieved: " + messages[0]?.getMessageBody())
-                Log.i(TAG, "phno is : " + messages[0]?.displayOriginatingAddress)
+                Log.i(TAG, "Phone number is : " + messages[0]?.displayOriginatingAddress)
 
             }
         }
