@@ -65,5 +65,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun sendFLightBroadcast(view: View) {
+        var flightIntent = Intent("ihave.flight")
+        sendBroadcast(flightIntent)
+    }
+
 
 }
