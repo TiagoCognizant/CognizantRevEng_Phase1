@@ -3,39 +3,34 @@ package com.example.cognizantreveng
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
 import android.util.Log
-import android.widget.Toast
 
 
 class CallReceiver : BroadcastReceiver() {
 
-
     override fun onReceive(context: Context, intent: Intent) {
-        Log.i(TAG, "Phone call Incoming....")
-        try {
-            val tmgr = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            val PhoneListener: MyPhoneStateListener = MyPhoneStateListener()
-            tmgr.listen(PhoneListener, PhoneStateListener.LISTEN_CALL_STATE)
-        } catch (e: Exception) {
-            Toast.makeText(context, "oops!", Toast.LENGTH_SHORT).show()
-        }
-    }
+        if (intent.action != null && intent.action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+            val phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
+            val callState = intent.getStringExtra(TelephonyManager.EXTRA_STATE)
 
-    private class MyPhoneStateListener : PhoneStateListener() {
-        var c: Context? = null
-        override fun onCallStateChanged(state: Int, incomingNumber: String) {
-            if (state == 1) {
-                val msg = "New Phone Call Event. Incoming Number: $incomingNumber"
-                val duration = Toast.LENGTH_LONG
-                val toast = Toast.makeText(c, msg, duration)
-                toast.show()
+            if (callState != null) {
+                when (callState) {
+                    TelephonyManager.EXTRA_STATE_RINGING -> {
+                        Log.i("CallLog", "Incoming call from: " + phoneNumber)
+                    }
+
+                   TelephonyManager.EXTRA_STATE_OFFHOOK -> {
+                        Log.i("CallLog", "Outgoing call to: " + phoneNumber)
+                    }
+
+                    TelephonyManager.EXTRA_STATE_IDLE -> {
+                        Log.i("CallLog", "Call ended")
+                    }
+                }
             }
         }
-    }
 
-    companion object {
-        var TAG = CallReceiver::class.java.simpleName
+
     }
 }
