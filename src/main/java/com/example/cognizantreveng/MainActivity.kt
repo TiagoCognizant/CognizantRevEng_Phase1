@@ -7,10 +7,7 @@ import android.provider.AlarmClock
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.cognizantreveng.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +16,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val constraintLayout = binding.root
+        setContentView(constraintLayout)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        var serviceIntent = Intent(this, MyService::class.java)
+
+        //start a service
+        binding.btnStart.setOnClickListener{ startService(serviceIntent) }
+
+        //stop a service
+        binding.btnStop.setOnClickListener{ stopService(serviceIntent) }
     }
 
 
