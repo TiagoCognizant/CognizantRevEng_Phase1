@@ -26,7 +26,12 @@ class MainActivity : AppCompatActivity() {
         var serviceIntent = Intent(this, MyService::class.java)
 
         //start a service
-        binding.btnStart.setOnClickListener{ startService(serviceIntent) }
+        binding.btnStart.setOnClickListener{
+
+            // sends to the class MyService due to line 26
+            serviceIntent.putExtra("url","imageurl.com")
+            startService(serviceIntent)
+        }
 
         //stop a service
         binding.btnStop.setOnClickListener{ stopService(serviceIntent) }
