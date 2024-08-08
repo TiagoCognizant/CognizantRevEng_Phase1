@@ -107,5 +107,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/btnBind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bind"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnStop"
+        app:layout_constraintStart_toEndOf="@+id/btnUnbind" />
+
+    <Button
+        android:id="@+id/btnUnbind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="Unbind"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnStart"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,13 @@
 package com.example.cognizantreveng
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.provider.AlarmClock
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -13,6 +17,7 @@ import com.example.cognizantreveng.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    var TAG = MainActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         //start a service
         binding.btnStart.setOnClickListener{
-
             // sends to the class MyService due to line 26
             serviceIntent.putExtra("url","imageurl.com")
             startService(serviceIntent)
@@ -35,8 +39,33 @@ class MainActivity : AppCompatActivity() {
 
         //stop a service
         binding.btnStop.setOnClickListener{ stopService(serviceIntent) }
+
+        binding.btnBind.setOnClickListener{
+            bindService(serviceIntent, mConnection, BIND_AUTO_CREATE)
+        }
+
+        binding.btnUnbind.setOnClickListener{ unbindService(mConnection) }
+
     }
 
+    val mConnection = object : ServiceConnection {
+        override fun onServiceConnected(p0: ComponentName?, localBinder: IBinder?) {
+            //var myService = MyService()  <-- this is creating a new Service
+
+            //Binding to an existing service
+            val binder = localBinder as MyService.LocalBinder // From class MyService
+            var myService = binder.getMyService()
+            var soccerScore = myService.latestScore()
+            Log.i(TAG, "Soccer Score: " + soccerScore)
+            var sum = myService.add(10,20)
+            Log.i(TAG, "Sum is: " + sum)
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            Log.i(TAG, "Service Disconnected -- ")
+        }
+
+    }
 
     // Write in editText then print the content on textView
     fun clickHandler(view: View) {
