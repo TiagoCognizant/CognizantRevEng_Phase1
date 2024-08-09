@@ -6,7 +6,9 @@ plugins {
 android {
     buildFeatures{
         viewBinding = true
+        aidl = true
     }
+
 
     namespace = "com.example.cognizantreveng"
     compileSdk = 34
